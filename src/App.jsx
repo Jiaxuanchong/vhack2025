@@ -1,5 +1,6 @@
 import React from "react";
 import './index.css';
+import Dashboard from "./pages/Dashboard";
 // import SwiftTrade from "./pages/SwiftTrade";
 import CommunityPage from "./pages/CommunityPage";
 
@@ -7,6 +8,14 @@ import CommunityPage from "./pages/CommunityPage";
 //   return (
 //     <div className="App">
 //       <SwiftTrade />
+//     </div>
+//   );
+// }
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <Dashboard />
 //     </div>
 //   );
 // }
