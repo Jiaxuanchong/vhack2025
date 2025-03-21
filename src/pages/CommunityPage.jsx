@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Chatbot from '../components/Chatbot';
 import Navigation from '../components/Navigation';
 
 function CommunityPage() {
@@ -57,53 +56,48 @@ function CommunityPage() {
       .catch((error) => console.error("Error fetching news:", error));
   }, []);
   
-
-  //parsing data from backend/news1
-  // const newsItems = [
-  //   {
-  //     id: 1,
-  //     title: 'U.S. downs suspected Chinese spy balloon',
-  //     date: '22 Dec 2022',
-  //     image: news,
-  //     percentage: '60%',
-  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'U.S. downs suspected Chinese spy balloon',
-  //     date: '22 Dec 2022',
-  //     image: news,
-  //     percentage: '60%',
-  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'U.S. downs suspected Chinese spy balloon',
-  //     date: '22 Dec 2022',
-  //     image: news,
-  //     percentage: '60%',
-  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'U.S. downs suspected Chinese spy balloon',
-  //     date: '22 Dec 2022',
-  //     image: news,
-  //     percentage: '60%',
-  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-  //   }
-  // ];
+  // Custom scrollbar styles to be added to head
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      /* Custom Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 14px;
+        background-color: transparent;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.3);
+        border-radius: 4px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(156, 163, 175, 0.5);
+      }
+      
+      /* Hide scrollbar for Firefox */
+      * {
+        scrollbar-width: medium;
+        scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   return (
     <div className="flex-grow flex flex-col h-screen w-full overflow-hidden">
         <Navigation />
-    <div className="flex h-screen w-full bg-gray-900 text-white">
-        <Chatbot />
-        <div className="flex-1 min-h-0 flex p-4">
+    <div className="flex h-screen w-full bg-gray-900 text-white justify-center">
+    
+        <div className="flex max-w-6xl w-full p-4">
           {/* Community Section */}
-          <div className="flex-grow max-w-2xl mr-6 h-full flex flex-col">
+          <div className="flex-grow max-w-4xl mr-3 h-full flex flex-col">
             <h2 className="text-2xl font-bold mb-4">Community</h2>
-            <div className="flex-1 overflow-y-auto pb-12">{/* Add scrollbar */}
+            <div className="flex-1 overflow-y-auto pb-12">
             {/* Chat Box */}
             <div className="bg-gray-800 rounded-lg p-4 mb-6">
               <div className="flex items-center mb-4">
@@ -210,25 +204,51 @@ function CommunityPage() {
           
           {/* News Section */}
           <div className="w-80 h-full flex flex-col">
-            <h2 className="text-xl font-bold mb-4">More News</h2>
-            <div className="flex-1 overflow-y-auto pb-15">
+          <h2 className="text-xl font-bold mb-4 text-white">More News</h2>
+          <div className="flex-1 overflow-y-auto pb-4 pr-2">
             {newsItems.length > 0 ? (
-                  newsItems.map((results, index) => (
-                    <div key={index} className="border-b border-gray-700 pb-4 mb-4">
-                      <img
-                        src={results.image || newsPlaceholder}
-                        alt={results.title}
-                        className="w-full h-40 object-cover rounded-lg mb-2"
-                      />
-                      <h4 className="text-lg font-bold">{results.title}</h4>
-                      <p className="text-sm text-gray-400">{results.published_date} - {results.publisher}</p>
-                      <p className="text-sm text-gray-300"><span className={`font-bold ${results.sentiment === "Positive" ? "text-green-400" : results.sentiment === "Negative" ? "text-red-400" : "text-yellow-400"}`}>{results.sentiment}</span></p>
-                      <a href={results.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 text-sm">Read more</a>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-400">Loading news...</p>
-                )}
+              newsItems.map((results, index) => (
+                <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md items-start space-x-4 mb-4">
+                  {/* Image */}
+                  <a href={results.link} target="_blank" rel="noopener noreferrer" className="block">
+                  <img
+                    src={results.image || newsPlaceholder}
+                    alt={results.title}
+                    className="p-2 rounded-lg cursor-pointer"
+                  />
+                </a>
+
+
+                  {/* Content */}
+                  <div className="flex-1">
+                    {/* Title */}
+                    <h4 className="text-sm font-bold text-gray-900">{results.title}</h4>
+
+                    {/* Description */}
+                    <p className="text-xs text-gray-500 line-clamp-2">{results.description}</p>
+
+                    {/* Publisher & Date */}
+                    <p className="text-xs text-gray-400 mt-1">
+                      {results.publisher} - {results.published_date}
+                    </p>
+                  </div>
+
+                  {/* Impact Percentage Badge */}
+                  <div className={`inline-flex items-center px-2 py-1 text-xs font-bold rounded-full whitespace-nowrap ${
+                    results.sentiment === "Positive"
+                     ? "bg-green-100 text-green-800"
+                     : results.sentiment === "Negative"
+                     ? "bg-red-100 text-red-800"
+                     : "bg-yellow-100 text-yellow-700"
+                  }`}>
+                 {results.sentiment} {results.impact_percentage}%
+                </div>
+
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-400">Loading news...</p>
+            )}
           </div>
         </div>
       </div>

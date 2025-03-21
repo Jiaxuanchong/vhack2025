@@ -28,8 +28,18 @@ def predict_sentiment(input_text):
     # Map sentiment scores to labels
     labels = ["Negative", "Neutral", "Positive"]
     sentiment_label = labels[predicted_probs.index(max(predicted_probs))]
-    
-    return sentiment_label
+     # Assign numerical impact score based on probability confidence
+    impact_percentage= (predicted_probs[2] - predicted_probs[0]) * 100  # Positive - Negative
+
+    if impact_percentage > 15:  # Higher than 15% means clearly positive
+        sentiment_label = "Positive"
+    elif impact_percentage < -15:  # Lower than -15% means clearly negative
+        sentiment_label = "Negative"
+    else:
+        sentiment_label = "Neutral"
+
+    return sentiment_label, impact_percentage
+
 
 @app.get("/bitcoin-news-sentiment")  
 async def bitcoin_news_sentiment():
@@ -48,8 +58,7 @@ async def bitcoin_news_sentiment():
             link = item.get("link", "")
             published_date = item.get("providerPublishTime", "")
             formatted_date = datetime.utcfromtimestamp(published_date).strftime('%d %b %Y')
-            sentiment_label = predict_sentiment(title)
-            
+            sentiment_label, impact_percentage = predict_sentiment(title)
             # Try to get the image first
             image_url = None
             if "thumbnail" in item:
@@ -73,11 +82,12 @@ async def bitcoin_news_sentiment():
                 "link": link,
                 "published_date": formatted_date,
                 "sentiment": sentiment_label,
-                "image": image_url  # Add image URL
+                "image": image_url,  # Add image URL
+                "impact_percentage": round(impact_percentage, 2)
             })
         
         return {"news_sentiment": results}
     else:
         return {"error": "Failed to fetch data", "status_code": response.status_code}
 
-#uvicorn news:app --reload --port 8001 
+#uvicorn news1:app --reload --port 8001 
