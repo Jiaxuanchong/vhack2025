@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Chatbot from '../components/Chatbot';
 import Navigation from '../components/Navigation';
-import news from '../assets/news.jpg';
+
 function CommunityPage() {
   // Fake data for posts
   const posts = [
@@ -37,41 +37,62 @@ function CommunityPage() {
     }
   ];
 
-  // Fake data for news
-  const newsItems = [
-    {
-      id: 1,
-      title: 'U.S. downs suspected Chinese spy balloon',
-      date: '22 Dec 2022',
-      image: news,
-      percentage: '60%',
-      description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-    },
-    {
-      id: 2,
-      title: 'U.S. downs suspected Chinese spy balloon',
-      date: '22 Dec 2022',
-      image: news,
-      percentage: '60%',
-      description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-    },
-    {
-      id: 3,
-      title: 'U.S. downs suspected Chinese spy balloon',
-      date: '22 Dec 2022',
-      image: news,
-      percentage: '60%',
-      description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-    },
-    {
-      id: 4,
-      title: 'U.S. downs suspected Chinese spy balloon',
-      date: '22 Dec 2022',
-      image: news,
-      percentage: '60%',
-      description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
-    }
-  ];
+  const [newsItems, setNewsItems] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8001/bitcoin-news-sentiment")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.news_sentiment) {
+          setNewsItems(data.news_sentiment);
+        } else {
+          console.error("No news_sentiment field in response:", data);
+        }
+      })
+      .catch((error) => console.error("Error fetching news:", error));
+  }, []);
+  
+
+  //parsing data from backend/news1
+  // const newsItems = [
+  //   {
+  //     id: 1,
+  //     title: 'U.S. downs suspected Chinese spy balloon',
+  //     date: '22 Dec 2022',
+  //     image: news,
+  //     percentage: '60%',
+  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'U.S. downs suspected Chinese spy balloon',
+  //     date: '22 Dec 2022',
+  //     image: news,
+  //     percentage: '60%',
+  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'U.S. downs suspected Chinese spy balloon',
+  //     date: '22 Dec 2022',
+  //     image: news,
+  //     percentage: '60%',
+  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'U.S. downs suspected Chinese spy balloon',
+  //     date: '22 Dec 2022',
+  //     image: news,
+  //     percentage: '60%',
+  //     description: 'China called the vessel\'s downing "an excessive reaction" and said it "retains the right to respond further."'
+  //   }
+  // ];
 
   return (
     <div className="flex-grow flex flex-col h-screen w-full overflow-hidden">
@@ -191,24 +212,23 @@ function CommunityPage() {
           <div className="w-80 h-full flex flex-col">
             <h2 className="text-xl font-bold mb-4">More News</h2>
             <div className="flex-1 overflow-y-auto pb-15">
-            {newsItems.map(newsItem => (
-              <div key={newsItem.id} className="bg-gray-800 rounded-lg p-3 mb-4 flex">
-                <img 
-                  src={newsItem.image} 
-                  alt={newsItem.title} 
-                  className="w-16 h-16 object-cover rounded mr-3"
-                />
-                
-                <div className="flex-grow">
-                  <h3 className="font-medium text-sm mb-1">{newsItem.title}</h3>
-                  <p className="text-xs text-gray-400 mb-2">{newsItem.description}</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-xs text-gray-400">Craig Baker • {newsItem.date}</p>
-                    <span className="text-xs font-bold text-red-500">{newsItem.percentage}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
+            {newsItems.length > 0 ? (
+                  newsItems.map((results, index) => (
+                    <div key={index} className="border-b border-gray-700 pb-4 mb-4">
+                      <img
+                        src={results.image || newsPlaceholder}
+                        alt={results.title}
+                        className="w-full h-40 object-cover rounded-lg mb-2"
+                      />
+                      <h4 className="text-lg font-bold">{results.title}</h4>
+                      <p className="text-sm text-gray-400">{results.published_date} - {results.publisher}</p>
+                      <p className="text-sm text-gray-300"><span className={`font-bold ${results.sentiment === "Positive" ? "text-green-400" : results.sentiment === "Negative" ? "text-red-400" : "text-yellow-400"}`}>{results.sentiment}</span></p>
+                      <a href={results.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 text-sm">Read more</a>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400">Loading news...</p>
+                )}
           </div>
         </div>
       </div>

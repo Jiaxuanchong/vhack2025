@@ -1,6 +1,6 @@
 import React from "react";
 import './index.css';
-import Dashboard from "./pages/Dashboard";
+//import Dashboard from "./pages/Dashboard";
 // import SwiftTrade from "./pages/SwiftTrade";
 import CommunityPage from "./pages/CommunityPage";
 

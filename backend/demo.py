@@ -68,24 +68,24 @@ def main():
     
     # Create and run chatbot
     print("\nInitializing RAG Chatbot with demo data...")
-    chatbot = RAGChatbot(data_dir="./knowledge_base")
+    # chatbot = RAGChatbot(data_dir="./knowledge_base")
     
     # Check if API key is set
     if not os.getenv("OPENAI_API_KEY"):
         print("ERROR: Please set your OPENAI_API_KEY environment variable or in a .env file.")
         exit(1)
     
-    # Try to load existing database first
-    if not chatbot.load_existing_db():
-        # If no existing database, load and process documents
-        if not chatbot.load_and_process_documents():
-            print("Failed to load or process documents.")
-            exit(1)
+    # # Try to load existing database first
+    # if not chatbot.load_existing_db():
+    #     # If no existing database, load and process documents
+    #     if not chatbot.load_and_process_documents():
+    #         print("Failed to load or process documents.")
+    #         exit(1)
     
-    # Initialize QA chain
-    if chatbot.initialize_qa_chain():
-        # Run interactive session
-        chatbot.run_interactive()
+    # # Initialize QA chain
+    # if chatbot.initialize_qa_chain():
+    #     # Run interactive session
+    #     chatbot.run_interactive()
 
 if __name__ == "__main__":
     main()
