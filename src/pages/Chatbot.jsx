@@ -3,7 +3,7 @@ import { Menu, X, Send } from "lucide-react";
 import profile from "../assets/profile.jpg";
 import chatbot from "../assets/chatbot.jpg";
 
-export default function ChatUI() {
+export default function Chatbot() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");

@@ -1,75 +1,71 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import fblogo from "../assets/fblogo.png";
 import googlelogo from "../assets/googlelogo.png";
+import logo from "../assets/logo.png";
 
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate function
+
+  // Function to handle signup
+  const handleSignup = () => {
+    // You can add validation logic here before navigating
+    navigate("/survey"); // Navigate to the dashboard after signing up
+  };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-r from-[#09001b] to-[#170f2e] text-white">
       {/* Left Side (Illustration) */}
       <div className="w-1/2 flex items-center justify-center p-6 overflow-auto">
-        <div className="absolute top-5 left-5 text-xl font-bold">SwiftTrade</div>
+        <div className="absolute top-5 left-6 flex items-center space-x-2 pb-6">
+          <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto" />
+          <p className="text-white text-lg font-bold">SwiftTrade</p>
+        </div>
         <div className="text-4xl font-bold text-left leading-tight">
           SIGN IN TO YOUR <br /> <span className="text-purple-400">ADVENTURE!</span>
         </div>
       </div>
 
       {/* Right Side (Signup Form) */}
-      <div className="w-1/2 flex items-center justify-center p-6 overflow-auto">
-        <div className="w-full max-w-md bg-[#1b1135] p-8 rounded-lg shadow-lg mt-14">
-          <h2 className="text-3xl font-bold text-center mb-6">SIGN UP</h2>
-          <p className="text-center mb-4">Sign up with email address</p>
+      <div className="w-1/2 flex items-center justify-center p-4 overflow-auto">
+        <div className="w-full max-w-md bg-[#1b1135] p-6 rounded-lg shadow-lg mt-4">
+          <h2 className="text-3xl font-bold text-center mb-1">SIGN UP</h2>
+          <p className=" italic text-center mb-4">to explore more</p>
 
+          <div className="flex gap-4 mb-4">
           <input
             type="text"
             placeholder="First Name"
-            className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white mb-4"
+            className="w-1/2 p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white"
           />
           <input
             type="text"
             placeholder="Last Name"
-            className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white mb-4"
+            className="w-1/2 p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white"
           />
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white mb-4"
-          />
+        </div>
+
+          <input type="text" placeholder="Username" className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white mb-4" />
 
           <div className="relative mb-4">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white pr-10"
-            />
-            <button
-              type="button"
-              className="absolute inset-y-0 right-3 flex items-center text-gray-400"
-              onClick={() => setShowPassword(!showPassword)}
-            >
+            <input type={showPassword ? "text" : "password"} placeholder="Password" className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white pr-10" />
+            <button type="button" className="absolute inset-y-0 right-3 flex items-center text-gray-400" onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
 
           <div className="relative mb-6">
-            <input
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm Password"
-              className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white pr-10"
-            />
-            <button
-              type="button"
-              className="absolute inset-y-0 right-3 flex items-center text-gray-400"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            >
+            <input type={showConfirmPassword ? "text" : "password"} placeholder="Confirm Password" className="w-full p-3 bg-[#2a1f46] rounded-lg border border-gray-500 text-white pr-10" />
+            <button type="button" className="absolute inset-y-0 right-3 flex items-center text-gray-400" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
 
-          <button className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-400 rounded-lg font-bold">
+          {/* Button to Navigate to Another Page */}
+          <button onClick={handleSignup} className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-400 rounded-lg font-bold">
             Create Account
           </button>
 
