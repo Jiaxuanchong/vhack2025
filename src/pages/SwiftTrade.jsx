@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Radar } from "react-chartjs-2";
+import { useNavigate } from "react-router-dom";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -10,7 +11,9 @@ import {
   Legend
 } from "chart.js";
 import { Button } from "../components/button.jsx";
+import SurveryResultPage from "./SurveyResultPage.jsx";
 import logo from "../assets/logo.png";
+
 
 // Register required Chart.js components
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
@@ -88,6 +91,8 @@ const SwiftTrade = () => {
     resilience: 0
   });
 
+  const navigate = useNavigate();
+
   const handleAnswer = (impact) => {
     setUserData((prevData) => {
       const newData = { ...prevData };
@@ -99,6 +104,9 @@ const SwiftTrade = () => {
 
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
+    } else {
+      // Navigate to another page after the last answer
+      navigate("/results"); // Adjust "/results" to your desired route
     }
   };
 
@@ -145,28 +153,37 @@ const SwiftTrade = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white p-8">
-        <div className="absolute top-12 left-10 flex items-center space-x-2">
-        <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto" />
-        <p className="text-white text-lg font-bold">SwiftTrade</p>
-        </div>
-      <div className="w-1/2 p-8">
-        <h1 className="text-3xl font-bold mb-6">SwiftTrade - Investment Assessment</h1>
-        <p className="text-lg mb-6">{questions[currentStep].text}</p>
-        <div className="flex flex-col gap-4">
-          {questions[currentStep].options.map((option, index) => (
-            <Button key={index} onClick={() => handleAnswer(option.impact)} className="bg-white hover:bg-blue-200 text-black py-3 px-6 rounded-lg shadow-lg">
-              {option.label}
-            </Button>
-          ))}
-        </div>
-      </div>
-      <div className="w-1/2 flex justify-center items-center">
-        <div className="w-[450px] h-[450px]">
-          <Radar data={radarData} options={radarOptions} />
-        </div>
+    <div className="flex flex-col items-center justify-center bg-black text-white px-8 py-6 min-h-screen">
+  {/* Logo Section */}
+    <div className="absolute top-5 left-6 flex items-center space-x-2 pb-6">
+            <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto" />
+            <p className="text-white text-lg font-bold">SwiftTrade</p>
+          </div>
+
+  <div className="flex w-full">
+    <div className="w-1/2 p-6">
+      <h1 className="text-3xl font-bold mb-6 mt-14">SwiftTrade - Investment Assessment</h1>
+      <p className="text-lg mb-6">{questions[currentStep].text}</p>
+      <div className="flex flex-col gap-4">
+        {questions[currentStep].options.map((option, index) => (
+          <Button
+            key={index}
+            onClick={() => handleAnswer(option.impact)}
+            className="bg-white hover:bg-blue-200 text-black py-3 px-6 rounded-lg shadow-lg"
+          >
+            {option.label}
+          </Button>
+        ))}
       </div>
     </div>
+    <div className="w-1/2 flex justify-center items-center">
+      <div className="w-[450px] h-[450px]">
+        <Radar data={radarData} options={radarOptions} />
+      </div>
+    </div>
+  </div>
+</div>
+
   );
 };
 

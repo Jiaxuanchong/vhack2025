@@ -90,12 +90,10 @@ function CommunityPage() {
 
   return (
     <div className="flex-grow flex flex-col h-screen w-full overflow-hidden">
-        <Navigation />
-    <div className="flex h-screen w-full bg-gray-900 text-white justify-center">
-    
-        <div className="flex max-w-6xl w-full p-4">
+    <div className="flex h-screen w-full bg-black text-white">
+        <div className="flex-1 min-h-3 flex p-4">
           {/* Community Section */}
-          <div className="flex-grow max-w-4xl mr-3 h-full flex flex-col">
+          <div className="flex-grow max-w-4xl mr-3 ml-12 h-full flex flex-col">
             <h2 className="text-2xl font-bold mb-4">Community</h2>
             <div className="flex-1 overflow-y-auto pb-12">
             {/* Chat Box */}
@@ -212,7 +210,7 @@ function CommunityPage() {
                   {/* Image */}
                   <a href={results.link} target="_blank" rel="noopener noreferrer" className="block">
                   <img
-                    src={results.image || newsPlaceholder}
+                    src={results.image}
                     alt={results.title}
                     className="p-2 rounded-lg cursor-pointer"
                   />
