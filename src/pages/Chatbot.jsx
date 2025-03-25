@@ -69,7 +69,7 @@ export default function Chatbot() {
 
       <div className={`flex flex-1 flex-col items-center w-full p-10 transition-all duration-300 ${sidebarOpen ? "pl-80" : "pl-0"}`}>
         <button onClick={() => setSidebarOpen(true)} className="absolute left-6 top-6">
-          <Menu className="w-6 h-6 text-white" />
+          <Menu className="w-6 h-6 mt-14 text-white" />
         </button>
         
         {!conversationStarted ? (
