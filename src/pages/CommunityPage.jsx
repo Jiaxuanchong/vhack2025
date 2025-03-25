@@ -1,38 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import Navigation from '../components/Navigation';
-
+import commentImg from "../assets/ss1.jpg";
 function CommunityPage() {
-  // Fake data for posts
+  // Updated posts specifically for algo trading platform
   const posts = [
     {
         id: 1,
-        title: 'Front-end Development',
-        author: 'Abu Bakar',
-        location: 'Malaysia',
-        content: 'The three main languages you need to know well are HTML, CSS, and JavaScript...',
+        title: 'Long-Term Trend Follower Bot Performance',
+        author: 'Alex Rodrigues',
+        location: 'Brazil',
+        content: 'My Long-Term Trend Follower bot has been consistently delivering 12% annual returns by tracking moving averages across multiple cryptocurrency pairs. Key strategies include 50-day and 200-day moving average crossovers with strict risk management.',
         likes: 98,
         comments: 25,
-        chartImage: true
+        chartImage: true,
+        role: '> 3 Years Experience'
     },
     {
         id: 2,
-        title: 'Front-end Development And Backend Developer',
-        author: 'William Chua',
-        location: 'United Kingdom',
-        content: '',
-        likes: 0,
-        comments: 0,
-        chartImage: false
+        title: 'Mean Reversion Strategy Insights',
+        author: 'Emily Chen',
+        location: 'Singapore',
+        content: 'Developed a Mean Reversion bot that identifies short-term price fluctuations in top 10 cryptocurrencies. Backtesting shows promising results with lower drawdown compared to trend-following strategies.',
+        likes: 76,
+        comments: 18,
+        chartImage: false,
+        role: '0-1 Year Experience'
     },
     {
         id: 3,
-        title: 'Front-end Development',
-        author: 'Anderson',
-        location: 'Mexico',
-        content: 'The three main languages you need to know well are HTML, CSS, and JavaScript...',
-        likes: 12,
-        comments: 3,
-        chartImage: true
+        title: 'Arbitrage Trading Bot Success',
+        author: 'Marcus Goldman',
+        location: 'United States',
+        content: 'My cross-exchange arbitrage bot has been capturing price differences between Binance and Kraken. Small but consistent profits with minimal risk exposure. Implemented sophisticated API management to reduce latency.',
+        likes: 112,
+        comments: 35,
+        chartImage: false,
+        role: '1-2 Years Experience'
     }
   ];
 
@@ -62,23 +64,17 @@ function CommunityPage() {
     style.textContent = `
       /* Custom Scrollbar Styling */
       ::-webkit-scrollbar {
-        width: 14px;
-        background-color: transparent;
+        width: 8px;
+        background-color: rgba(31, 41, 55, 0.5);
       }
       
       ::-webkit-scrollbar-thumb {
-        background-color: rgba(156, 163, 175, 0.3);
-        border-radius: 4px;
+        background-color: rgba(156, 163, 175, 0.4);
+        border-radius: 10px;
       }
       
       ::-webkit-scrollbar-thumb:hover {
-        background-color: rgba(156, 163, 175, 0.5);
-      }
-      
-      /* Hide scrollbar for Firefox */
-      * {
-        scrollbar-width: medium;
-        scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
+        background-color: rgba(156, 163, 175, 0.6);
       }
     `;
     document.head.appendChild(style);
@@ -89,168 +85,173 @@ function CommunityPage() {
   }, []);
 
   return (
-    <div className="flex-grow flex flex-col h-screen w-full overflow-hidden">
-    <div className="flex h-screen w-full bg-black text-white">
-        <div className="flex-1 min-h-3 flex p-4 pt-12">
+    <div className="bg-[#0a0a0a] min-h-screen text-white">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Community Section */}
-          <div className="flex-grow max-w-4xl mr-3 ml-12 h-full flex flex-col">
-            <h2 className="text-2xl font-bold mb-4 text-white pl-4">Community</h2>
-            <div className="flex-1 overflow-y-auto pb-12">
+          <div className="md:col-span-2 space-y-6">
+            <h2 className="text-3xl font-bold text-white mb-6">Trading Bot Community</h2>
+            
             {/* Chat Box */}
-            <div className="bg-white/10 rounded-lg p-4 mb-6 border-gray-700 border-1">
+            <div className="bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-800">
               <div className="flex items-center mb-4">
-                <div className="bg-green-500 rounded-full h-8 w-8 flex items-center justify-center mr-2">
-                  <span className="text-white text-xs">SC</span>
+                <div className="bg-gradient-to-br from-green-500 to-green-700 rounded-full h-10 w-10 flex items-center justify-center mr-4 shadow-md">
+                  <span className="text-white text-sm font-bold">TC</span>
                 </div>
                 <input
                   type="text"
-                  placeholder="What's on your mind ?"
-                  className="bg-white/10 rounded-lg flex-grow p-2 text-sm"
+                  placeholder="Share your trading bot strategy..."
+                  className="bg-gray-800 text-white rounded-lg flex-grow p-3 text-sm focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                 />
               </div>
               
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mt-4">
                 <div className="flex space-x-4">
-                  <button className="text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
-                  <button className="text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    </svg>
-                  </button>
-                  <button className="text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                    </svg>
-                  </button>
-                  <button className="text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                    </svg>
-                  </button>
+                  {[
+                    { icon: 'emoji', path: 'M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                    { icon: 'camera', path: 'M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z' },
+                    { icon: 'list', path: 'M4 6h16M4 10h16M4 14h16M4 18h16' },
+                    { icon: 'attachment', path: 'M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13' }
+                  ].map((item, index) => (
+                    <button 
+                      key={index} 
+                      className="text-gray-400 hover:text-white transition-colors duration-300"
+                    >
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-6 w-6" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d={item.path} 
+                        />
+                      </svg>
+                    </button>
+                  ))}
                 </div>
                 
-                <button className="bg-purple-500 text-white px-3 py-1 rounded-lg text-sm">
-                  Post
+                <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300">
+                  Share
                 </button>
               </div>
             </div>
+
             {/* Posts */}
-            {posts.map(post => (
-              <div key={post.id} className="bg-white/10  border-gray-700 border-1 rounded-lg p-4 mb-6">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center">
-                    <div className="bg-pink-500 rounded-full h-8 w-8 flex items-center justify-center mr-2">
-                      <span className="text-white text-xs">EA</span>
+            <div className="space-y-6">
+              {posts.map(post => (
+                <div 
+                  key={post.id} 
+                  className="bg-gray-900 rounded-2xl p-6 shadow-lg border border-gray-800 hover:border-purple-600 transition-all duration-300"
+                >
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center">
+                      <div className="bg-gradient-to-br from-pink-500 to-pink-700 rounded-full h-10 w-10 flex items-center justify-center mr-4 shadow-md">
+                        <span className="text-white text-sm font-bold">TB</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">{post.author}</p>
+                        {post.location && <p className="text-xs text-gray-400">{post.location}</p>}
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">{post.author}</p>
-                      {post.location && <p className="text-xs text-gray-400">{post.location}</p>}
-                    </div>
+                    
+                    <span className="bg-green-900/50 text-green-400 px-3 py-1 rounded-full text-xs">
+                      {post.role}
+                    </span>
                   </div>
                   
-                  <button className="bg-green-900 text-white px-3 py-1 rounded-lg text-xs">
-                    Front-end
-                  </button>
-                </div>
-                
-                <h3 className="text-lg font-medium mb-2">{post.title}</h3>
-                {post.content && <p className="text-sm mb-4">{post.content}</p>}
-                
-                {post.chartImage && (
-                  <div className="bg-white rounded-lg p-2 mb-4">
+                  <h3 className="text-xl font-semibold mb-3 text-white">{post.title}</h3>
+                  {post.content && <p className="text-gray-300 mb-4">{post.content}</p>}
+                  
+                  {post.chartImage && (
+                    <div className="bg-gray-800 rounded-lg p-2 mb-4 overflow-hidden">
                     <img 
-                      src="https://via.placeholder.com/500x200?text=Chart+Data" 
-                      alt="Chart Data" 
-                      className="w-full h-32 object-cover rounded"
+                      src={commentImg}
+                      alt="Performance Chart" 
+                      className="w-full h-auto max-h-48 object-contain rounded-md 
+                                 transform mx-auto block"
                     />
                   </div>
-                )}
-                
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-2">
-                    <button className="flex items-center text-gray-400 text-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                      </svg>
-                      {post.likes}
-                    </button>
-                    <button className="flex items-center text-gray-400 text-sm">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                      </svg>
-                      {post.comments}
-                    </button>
-                  </div>
+                  )}
                   
-                  <div className="flex items-center">
-                    <button className="bg-gray-700 text-gray-400 rounded-full p-1 mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                    </button>
-                    <span className="text-xs text-gray-400">Add Response</span>
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center space-x-4">
+                      <button className="flex items-center text-gray-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        {post.likes}
+                      </button>
+                      <button className="flex items-center text-gray-400 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        {post.comments}
+                      </button>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <button className="bg-gray-800 text-gray-400 rounded-full p-2 mr-2 hover:bg-purple-600 hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                      </button>
+                      <span className="text-xs text-gray-400">Add Comment</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
           
           {/* News Section */}
-          <div className="w-80 h-full flex flex-col">
-          <h2 className="text-2xl font-bold mb-4 text-white">More News</h2>
-          <div className="flex-1 overflow-y-auto pb-4 pr-2">
-            {newsItems.length > 0 ? (
-              newsItems.map((results, index) => (
-                <div key={index} className="bg-white/10 border-1 border-gray-700 p-4 rounded-lg shadow-md items-start space-x-4 mb-4">
-                  {/* Image */}
-                  <a href={results.link} target="_blank" rel="noopener noreferrer" className="block">
-                  <img
-                    src={results.image}
-                    alt={results.title}
-                    className="p-2 rounded-lg cursor-pointer"
-                  />
-                </a>
+          <div className="md:col-span-1">
+            <h2 className="text-3xl font-bold text-white mb-6">Market News</h2>
+            <div className="space-y-6">
+              {newsItems.length > 0 ? (
+                newsItems.map((results, index) => (
+                  <div 
+                    key={index} 
+                    className="bg-gray-900 rounded-2xl p-5 shadow-lg border border-gray-800 hover:border-purple-600 transition-all duration-300"
+                  >
+                    <a href={results.link} target="_blank" rel="noopener noreferrer" className="block mb-4">
+                      <img
+                        src={results.image}
+                        alt={results.title}
+                        className="w-full h-48 object-cover rounded-lg transform hover:scale-105 transition-transform duration-300"
+                      />
+                    </a>
 
+                    <div className="space-y-2">
+                      <h4 className="text-base font-bold text-white line-clamp-2">{results.title}</h4>
+                      <p className="text-sm text-gray-400 line-clamp-2">{results.description}</p>
+                      <p className="text-xs text-gray-500">
+                        {results.publisher} - {results.published_date}
+                      </p>
 
-                  {/* Content */}
-                  <div className="flex-1">
-                    {/* Title */}
-                    <h4 className="text-sm font-bold text-white-900">{results.title}</h4>
-
-                    {/* Description */}
-                    <p className="text-xs text-gray-500 line-clamp-2">{results.description}</p>
-
-                    {/* Publisher & Date */}
-                    <p className="text-xs text-gray-400 mt-1">
-                      {results.publisher} - {results.published_date}
-                    </p>
+                      <div className={`inline-flex items-center px-3 py-1 text-xs font-bold rounded-full whitespace-nowrap mt-2 ${
+                        results.sentiment === "Positive"
+                         ? "bg-green-900/50 text-green-400"
+                         : results.sentiment === "Negative"
+                         ? "bg-red-900/50 text-red-400"
+                         : "bg-yellow-900/50 text-yellow-400"
+                      }`}>
+                        {results.sentiment} {results.impact_percentage}%
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Impact Percentage Badge */}
-                  <div className={`inline-flex items-center px-2 py-1 text-xs font-bold rounded-full whitespace-nowrap ${
-                    results.sentiment === "Positive"
-                     ? "bg-green-100 text-green-800"
-                     : results.sentiment === "Negative"
-                     ? "bg-red-100 text-red-800"
-                     : "bg-yellow-100 text-yellow-700"
-                  }`}>
-                 {results.sentiment} {results.impact_percentage}%
-                </div>
-
-                </div>
-              ))
-            ) : (
-              <p className="text-gray-400">Loading news...</p>
-            )}
+                ))
+              ) : (
+                <p className="text-gray-400">Loading market news...</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

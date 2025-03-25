@@ -20,6 +20,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.8",
     "echarts-for-react": "^3.0.3",
+    "heroicons": "^2.2.0",
     "highcharts": "^12.1.2",
     "highcharts-react-official": "^3.2.1",
     "internmap": "^2.0.3",

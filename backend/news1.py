@@ -43,7 +43,7 @@ def predict_sentiment(input_text):
 
 @app.get("/bitcoin-news-sentiment")  
 async def bitcoin_news_sentiment():
-    url = "https://query1.finance.yahoo.com/v1/finance/search?q=bitcoin&newsCount=10"
+    url = "https://query1.finance.yahoo.com/v1/finance/search?q=bitcoin&newsCount=5"
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(url, headers=headers)
     

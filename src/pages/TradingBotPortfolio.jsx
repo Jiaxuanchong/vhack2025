@@ -9,7 +9,8 @@ import {
   ArrowDownIcon,
   DocumentTextIcon
 } from '@heroicons/react/outline';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, PieChart, Pie, Cell, Legend } from "recharts";
+
 
 // Enhanced bot performance data
 const botPerformanceData = {
@@ -25,6 +26,17 @@ const botPerformanceData = {
     totalVolume: 456.32,
     averageTradeDuration: '2h 15m'
   },
+  profitTrend: [
+    { month: 'Jan', profit: 50000 },
+    { month: 'Feb', profit: 75000 },
+    { month: 'Mar', profit: 124567 }
+  ],
+  assetAllocation: [
+    { name: 'BTC', value: 40 },
+    { name: 'ETH', value: 30 },
+    { name: 'XRP', value: 15 },
+    { name: 'Others', value: 15 }
+  ],
   botDetails: [
     {
       name: 'Scalper Bot',
@@ -163,12 +175,15 @@ const botPerformanceData = {
 };
 
 const TradingBotPortfolio = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
+
+  // Colors for the Pie Chart
+  const COLORS = ["#FF5733", "#33FF57", "#3357FF", "#F3FF33", "#FF33A2"];
 
   const renderOverviewSection = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {/* Overall Performance Summary */}
-      <div className="bg-gray-800 p-4 rounded-lg">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
         <div className="flex items-center mb-4">
           <TrendingUpIcon className="h-6 w-6 text-green-400 mr-2" />
           <h3 className="text-xl font-semibold text-white">Total Profit & Cryptocurrencies</h3>
@@ -181,10 +196,7 @@ const TradingBotPortfolio = () => {
         </div>
         <div className="flex flex-wrap gap-2">
           {botPerformanceData.cryptocurrencies.map((crypto, index) => (
-            <span 
-              key={index} 
-              className="bg-purple-500 text-white text-xs px-2 py-1 rounded"
-            >
+            <span key={index} className="bg-purple-500 text-white text-xs px-3 py-1 rounded">
               {crypto}
             </span>
           ))}
@@ -192,24 +204,99 @@ const TradingBotPortfolio = () => {
       </div>
 
       {/* Performance Metrics Bar Chart */}
-      <div className="bg-gray-800 p-4 rounded-lg">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
         <h3 className="text-xl font-semibold text-white mb-4">Performance Metrics</h3>
         <ResponsiveContainer width="100%" height={250}>
-          <BarChart data={[
-            { name: 'Total Trades', value: botPerformanceData.overallPerformance.totalTrades },
-            { name: 'Win Rate', value: botPerformanceData.overallPerformance.winRate },
-            { name: 'Sharpe Ratio', value: botPerformanceData.overallPerformance.sharpeRatio * 10 },
-            { name: 'Max Drawdown', value: botPerformanceData.overallPerformance.maxDrawdown }
-          ]}>
-            <XAxis dataKey="name" />
+        <BarChart
+          data={[
+            { name: "Total Trades", value: botPerformanceData.overallPerformance.totalTrades },
+            { name: "Win Rate", value: botPerformanceData.overallPerformance.winRate },
+            { name: "Sharpe Ratio", value: botPerformanceData.overallPerformance.sharpeRatio * 10 },
+            { name: "Max Drawdown", value: botPerformanceData.overallPerformance.maxDrawdown }
+          ]}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
+          <XAxis 
+            dataKey="name" 
+            interval={0} 
+            angle={-45} 
+            textAnchor="end" 
+            height={60} 
+            fontSize={10}
+          />
+          <YAxis 
+            label={{ 
+              value: 'Value', 
+              angle: -90, 
+              position: 'insideLeft',
+              offset: 0
+            }} 
+          />
+          <Tooltip 
+            contentStyle={{ backgroundColor: '#333', color: '#fff' }}
+            itemStyle={{ color: '#fff' }}
+            cursor={{ fill: 'rgba(255,255,255,0.0001)' }}
+            formatter={(value, name) => [value, name]}
+          />
+          <Bar 
+            dataKey="value" 
+            fill="#8884d8" 
+            barSize={40}
+          >
+            {/* Add individual colors to each bar */}
+            {[
+              "#FF6384",  // Reddish for Total Trades
+              "#36A2EB",  // Blue for Win Rate
+              "#FFCE56",  // Yellow for Sharpe Ratio
+              "#4BC0C0"   // Teal for Max Drawdown
+            ].map((color, index) => (
+              <Cell key={`cell-${index}`} fill={color} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+      </div>
+
+      {/* Profit Trend Line Chart */}
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-white mb-4">Profit Trend Over Time</h3>
+        <ResponsiveContainer width="100%" height={250}>
+          <LineChart data={botPerformanceData.profitTrend}>
+            <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="value" fill="#8884d8" />
-          </BarChart>
+            <Line type="monotone" dataKey="profit" stroke="#00C49F" strokeWidth={3} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Cryptocurrency Allocation Pie Chart */}
+      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-white mb-4">Asset Allocation</h3>
+        <ResponsiveContainer width="100%" height={250}>
+          <PieChart>
+            <Pie
+              data={botPerformanceData.assetAllocation}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={90}
+              fill="#8884d8"
+              label
+            >
+              {botPerformanceData.assetAllocation.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
+
 
   const renderTradeHistorySection = () => (
     <div className="bg-gray-800 rounded-lg p-4">
@@ -332,7 +419,7 @@ const TradingBotPortfolio = () => {
               ]}>
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip cursor={{ fill: 'rgba(255,255,255,0.0001)' }} />
                 <Bar dataKey="value" fill="#8884d8" />
               </BarChart>
             </ResponsiveContainer>
