@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Bell, Search } from "lucide-react";
-import TradingChart from "./CandleStickChart"; // <-- Your candlestick/line chart component
+import TradingChart from "../components/CandlestickChart"; // <-- Your candlestick/line chart component
 
 const Dashboard = () => {
   const [price] = useState(19972.9);
