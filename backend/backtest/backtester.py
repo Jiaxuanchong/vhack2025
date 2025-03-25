@@ -45,22 +45,27 @@ class Backtester:
     def run(self):
 
         # Check data columns
-        if "close" not in self.data.columns:
+        if "close" not in list(self.data.columns):
             print("Unable to run the test. The data that you passed in should contain market prices")
 
-        if self.strategy.indicators is not None:
+        if self.strategy.indicators is not None or self.strategy.indicators != []:
             # Check if the input data contains the necessary indicator columns to execute the strategy
-            if any(self.strategy.indicators) not in self.data.columns:
+            missing_indicators = [indicator for indicator in self.strategy.indicators if indicator not in list(self.data.columns)]
+
+            if any(missing_indicators):
                 print("Unable to run the test. Please check if your data passed in fit with your trading strategy.")
-                return
+                print(f"Indicators used: {self.strategy.indicators}")
+                print(f"Indicators are missing in the data: {missing_indicators}")
+
 
         self.data.sort_index(inplace=True)
+        df = self.data.copy()
         signals_data = self.strategy.generate_signals(self.data)
-        self.data["signal"] = signals_data
+        df.loc[:, "signal"] = signals_data
 
         print("Running the backtest...")
 
-        for idx, row in self.data.iterrows():
+        for idx, row in df.iterrows():
             if row["signal"] == Signal.BUY.value:
                 self._execute_trade(asset=self.asset, signal=Signal.BUY.value, price=row["close"], time=idx)
 
@@ -94,13 +99,13 @@ class Backtester:
                 self.trade_history.append(buy_order)
                 return
             else:
-                print("Insufficient cash to trade.")
+                print(f"{time}: Insufficient cash to trade.")
                 return
 
         elif signal == Signal.SELL.value:
             shares_to_sell = self.portfolio["positions"][asset]["quantity"]
             if shares_to_sell <= 0:
-                print("No holding positions.")
+                print(f"{time}: No holding positions.")
                 return
             else:
                 trade_value = shares_to_sell * price
@@ -182,6 +187,7 @@ class Backtester:
             'win_rate': 0,
             'total_portfolio_value': self.initial_capital,
             'total_trades': 0,
+            'trade_days': 0,
             'peak_equity': self.peak_equity,
         }
 
@@ -193,7 +199,6 @@ class Backtester:
 
         returns = equity_values.pct_change().fillna(0)
         cum_returns = (returns + 1).cumprod()
-        print("Cumulative returns: ", cum_returns)
 
         total_returns = (equity_values.iloc[-1] - self.initial_capital)
         total_returns_pct = (total_returns / self.initial_capital)
@@ -215,8 +220,9 @@ class Backtester:
 
         # Trade statistics
         total_trades = len(self.trade_history)
+        total_sell_trades = len([trade for trade in self.trade_history if trade.pnl is not None])
         profitable_trades = sum(1 for trade in self.trade_history if trade.pnl is not None and trade.pnl > 0)
-        win_rate = (profitable_trades / total_trades) if total_trades > 0 else 0
+        win_rate = (profitable_trades / total_sell_trades) if total_trades > 0 else 0
 
         final_equity = equity_values.iloc[-1] if not equity_values.empty else self.initial_capital
 
@@ -242,7 +248,8 @@ class Backtester:
             print("Backtest has not been executed.")
             return
 
-        print(f"BACKTEST RESULT:")
+        print(f"BACKTEST RESULT (From {self.equity_history[0][0]} to {self.equity_history[-1][0]}):")
+        print("-------------------------------------------------")
         print(f"Initial capital: ${self.initial_capital:.2f}")
         print(f"Final Portfolio Value: ${self.results['total_portfolio_value']:.2f}")
         print(f"Total Return: ${self.results['total_returns']:.2f} ({self.results['total_returns_pct'] * 100:.2f}%)")
@@ -254,7 +261,7 @@ class Backtester:
         print(f"Win Rate: {self.results['win_rate'] * 100:.2f}%")
         print(f"Total trades: {self.results['total_trades']}")
         print(f"Total trading days: {self.results['trade_days']}")
-        print(f"Peak Portfolio Value: ${self.results['peak_equity']}")
+        print(f"Peak Portfolio Value: ${self.results['peak_equity']:.2f}")
 
     def get_trade_history(self):
         return self.trade_history

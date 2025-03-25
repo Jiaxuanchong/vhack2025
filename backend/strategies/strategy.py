@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from enum import Enum
 from abc import ABC, abstractmethod
@@ -14,16 +15,18 @@ class Strategy(ABC):
     Define the interface that all strategy implementation should follow.
     """
     def __init__(self,
+                 train_data: pd.DataFrame = None,
                  indicators: Optional[Any] = None,
                  model: Optional[Any] = None,
                  risk_tolerance_level: float = 0.4
                  ):
+        self.train_data = None
         self.indicators: Optional[Any] = None  # to define any model indicators to be used
         self.risk_tolerance_level: float = risk_tolerance_level
         self.model: Optional[Any] = None
 
     @abstractmethod
-    def generate_signals(self, data: pd.DataFrame) -> pd.Series:
+    def generate_signals(self, data: pd.DataFrame) -> np.ndarray | pd.Series:
         """
         Contain signal generation logics to generate trading signal based on input data
         :param data: DataFrame containing market or on-chain data
