@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
 import fblogo from "../assets/fblogo.png";
 import googlelogo from "../assets/googlelogo.png";
 import logo from "../assets/logo.png";
@@ -8,32 +8,38 @@ import logo from "../assets/logo.png";
 const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate(); 
 
-  // Function to handle signup
+  
   const handleSignup = () => {
-    // You can add validation logic here before navigating
     navigate("/survey"); // Navigate to the dashboard after signing up
   };
 
   return (
     <div className="flex min-h-screen bg-gradient-to-r from-[#09001b] to-[#170f2e] text-white">
       {/* Left Side (Illustration) */}
-      <div className="w-1/2 flex items-center justify-center p-6 overflow-auto">
-        <div className="absolute top-5 left-6 flex items-center space-x-2 pb-6">
-          <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto" />
-          <p className="text-white text-lg font-bold">SwiftTrade</p>
-        </div>
-        <div className="text-4xl font-bold text-left leading-tight">
-          SIGN IN TO YOUR <br /> <span className="text-purple-400">ADVENTURE!</span>
-        </div>
+      <div className="w-1/2 flex flex-col items-start justify-center p-12 bg-gradient-to-br  text-white relative">
+      {/* Logo Section */}
+      <div className="absolute top-6 left-8 flex items-center space-x-3">
+        <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto opacity-90" />
+        <p className="text-x0.5 font-medium tracking-wide">SwiftTrade</p>
       </div>
 
+      {/* Quote Section */}
+      <div className="max-w-lg pl-18">
+        <p className="text-3xl font-bold leading-snug">
+          "Risk comes from <span className="text-purple-400">not knowing</span> what you're doing."
+        </p>
+        <p className="text-lg text-gray-400 mt-4 font-medium italic">– Warren Buffett</p>
+      </div>
+    </div>
+
+
       {/* Right Side (Signup Form) */}
-      <div className="w-1/2 flex items-center justify-center p-4 overflow-auto">
+      <div className="w-1/2 flex items-center justify-center pr-10 pt-4  overflow-auto">
         <div className="w-full max-w-md bg-[#1b1135] p-6 rounded-lg shadow-lg mt-4">
           <h2 className="text-3xl font-bold text-center mb-1">SIGN UP</h2>
-          <p className=" italic text-center mb-4">to explore more</p>
+          <p className=" italic text-center mb-4">to SwiftTrade explore more</p>
 
           <div className="flex gap-4 mb-4">
           <input

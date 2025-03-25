@@ -153,23 +153,30 @@ const SwiftTrade = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-black text-white px-8 py-6 min-h-screen">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-r from-[#09001b] to-[#170f2e]  text-white px-8 py-6 min-h-screen">
   {/* Logo Section */}
-    <div className="absolute top-5 left-6 flex items-center space-x-2 pb-6">
-            <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto" />
-            <p className="text-white text-lg font-bold">SwiftTrade</p>
-          </div>
+    {/* Logo Section */}
+      <div className="absolute top-6 left-8 flex items-center space-x-3">
+        <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto opacity-90" />
+        <p className="text-x0.5 font-medium tracking-wide">SwiftTrade</p>
+      </div>
 
   <div className="flex w-full">
     <div className="w-1/2 p-6">
-      <h1 className="text-3xl font-bold mb-6 mt-14">SwiftTrade - Investment Assessment</h1>
-      <p className="text-lg mb-6">{questions[currentStep].text}</p>
-      <div className="flex flex-col gap-4">
+      <h1 className="text-xl font-bold mb-3 mt-14 text-purple-300">Master Your Moves: Analyze Before You Trade</h1>
+       {/* Question Section with Styled Background */}
+
+        <p className="text-l font-medium text-white text-left">
+          {questions[currentStep].text}
+        </p>
+
+      {/* Answer Options */}
+      <div className="flex flex-col gap-2 mt-6">
         {questions[currentStep].options.map((option, index) => (
           <Button
             key={index}
             onClick={() => handleAnswer(option.impact)}
-            className="bg-white hover:bg-blue-200 text-black py-3 px-6 rounded-lg shadow-lg"
+            className="bg-white from-white hover:bg-purple-300 border-2 text-black font-medium py-3 px-3 rounded-xl shadow-lg transition-all duration-150 transform hover:scale-102"
           >
             {option.label}
           </Button>

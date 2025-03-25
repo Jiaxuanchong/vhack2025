@@ -13,12 +13,12 @@ function Navigation() {
   ];
 
   return (
-    <nav className="bg-gray-900 p-4 border-b border-gray-800">
-      {/* Logo and title */}
-      <div className="absolute top-5 left-6 flex items-center space-x-2">
-        <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto" />
-        <p className="text-white text-lg font-bold">SwiftTrade</p>
-      </div>
+    <nav className=" bg-black p-4">
+      {/* Logo Section */}
+        <div className="absolute top-6 left-8 flex items-center space-x-3">
+          <img src={logo} alt="SwiftTrade Logo" className="w-6 h-auto opacity-90" />
+          <p className="text-x0.5 font-medium tracking-wide">SwiftTrade</p>
+        </div>
       
       <ul className="flex space-x-8 justify-center">
         {navItems.map((item, index) => (
@@ -27,7 +27,7 @@ function Navigation() {
               to={item.path}
               className={({ isActive }) =>
                 isActive
-                  ? 'border-b-3 border-indigo-100 text-indigo-400 pb-4'
+                  ? 'border-b-3 border-indigo-100 text-purple-400 pb-4'
                   : 'text-gray-400 hover:text-indigo-200'
               }
             >

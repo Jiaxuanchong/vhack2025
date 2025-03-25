@@ -48,7 +48,7 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="flex h-screen bg-[#141718] text-white font-poppins">
+    <div className="flex h-screen bg-black  text-white font-poppins">
       <div
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#141718] p-4 transition-transform border-r border-gray-700 overflow-y-auto max-h-screen ${
           sidebarOpen ? "translate-x-0" : "-translate-x-64"
@@ -67,29 +67,52 @@ export default function Chatbot() {
         </ul>
       </div>
 
-      <div className={`flex flex-1 flex-col items-center w-full p-10 transition-all duration-300 ${sidebarOpen ? "pl-80" : "pl-0"}`}>
+      <div className={`flex flex-1 flex-col items-center w-full pb-10 transition-all duration-300 ${sidebarOpen ? "pl-80" : "pl-0"}`}>
         <button onClick={() => setSidebarOpen(true)} className="absolute left-6 top-6">
           <Menu className="w-6 h-6 mt-14 text-white" />
         </button>
         
         {!conversationStarted ? (
-          <div className="flex flex-col items-center justify-center space-y-8 h-full">
-            <h1 className="text-4xl font-bold">Welcome to FinQuestionArea</h1>
+          <div className="flex flex-col items-center justify-center space-y-4 h-full px-4">
+          {/* Title */}
+          <h1 className="text-4xl font-extrabold text-gray-100 mb-8">Welcome to FinQues</h1>
+        
+          {/* Suggested Questions */}
+          <div className="flex flex-wrap gap-4 max-w-2xl justify-center ">
+            {["What is the current latest news related bitcoin?", "What is stock diversification?", "How does cryptocurrency work?", "Predict the price of the bitcoin"].map((question, index) => (
+              <button
+                key={index}
+                onClick={() => setInput(question)}
+                className="px-4 py-2 bg-white/20 hover:bg-purple-500 text-white text-sm rounded-lg transition-all duration-200"
+              >
+                {question}
+              </button>
+            ))}
+          </div>
+        
+          {/* Input Field & Send Button in One Line */}
+          <div className="flex items-center w-full max-w-3xl bg-gray-800 rounded-xl  transition-all mt-3">
             <input
               type="text"
-              placeholder="Type your question..."
+              placeholder="Type your finance question..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="w-full max-w-3xl bg-gray-800 p-5 rounded-xl outline-none text-white"
+              className="flex-1 bg-transparent p-3 text-white text-lg outline-none"
             />
-            <button onClick={sendMessage} className="p-4 bg-gray-700 rounded-full">Send</button>
-          </div>
+            <button
+              onClick={sendMessage}
+              className="px-6 py-3 bg-purple-300 hover:bg-purple-400 text-purple-900 font-medium text-lg rounded-r-xl shadow-lg transition-transform duration-200 hover:scale-105"
+            >
+              Send
+            </button>
+            </div>
+        </div>
         ) : (
           <div className={`w-full max-w-3xl flex flex-col space-y-8 flex-grow mt-16 transition-all duration-300 ${sidebarOpen ? "left-[60%]" : "left-1/2"}`}>
             {messages.map((msg, index) => (
-              <div key={index} className={`flex items-center space-x-6 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
+              <div key={index} className={`flex items-center space-x-3 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                 {msg.sender === "bot" && <img src={chatbot} alt="Chatbot" className="w-12 h-12 rounded-full" />}
-                <div className={`px-6 py-4 rounded-xl shadow-lg ${msg.sender === "user" ? "bg-blue-600" : "bg-gray-800"}`}>
+                <div className={`px-6 py-4 rounded-xl shadow-lg ${msg.sender === "user" ? "bg-purple-300 text-black" : "bg-gray-800 text-white"}`}>
                   {msg.text}
                 </div>
                 {msg.sender === "user" && <img src={profile} alt="User" className="w-12 h-12 rounded-full" />}
@@ -98,7 +121,7 @@ export default function Chatbot() {
             {isTyping && (
               <div className="flex items-center space-x-6 justify-start">
                 <img src={chatbot} alt="Chatbot" className="w-12 h-12 rounded-full" />
-                <div className="px-6 py-4 rounded-xl shadow-lg bg-gray-800 text-gray-400">Typing...</div>
+                <div className="px-6 py-4 rounded-xl bg-gray-800 text-gray-400">Typing...</div>
               </div>
             )}
             <div className={`flex items-center space-x-4 bg-gray-800 p-3 rounded-xl fixed bottom-6 transition-all duration-300 ${sidebarOpen ? "left-[60%]" : "left-1/2"} transform -translate-x-1/2 w-full max-w-3xl`}>

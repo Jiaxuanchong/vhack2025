@@ -91,13 +91,13 @@ function CommunityPage() {
   return (
     <div className="flex-grow flex flex-col h-screen w-full overflow-hidden">
     <div className="flex h-screen w-full bg-black text-white">
-        <div className="flex-1 min-h-3 flex p-4">
+        <div className="flex-1 min-h-3 flex p-4 pt-12">
           {/* Community Section */}
           <div className="flex-grow max-w-4xl mr-3 ml-12 h-full flex flex-col">
-            <h2 className="text-2xl font-bold mb-4">Community</h2>
+            <h2 className="text-2xl font-bold mb-4 text-white pl-4">Community</h2>
             <div className="flex-1 overflow-y-auto pb-12">
             {/* Chat Box */}
-            <div className="bg-gray-800 rounded-lg p-4 mb-6">
+            <div className="bg-white/10 rounded-lg p-4 mb-6 border-gray-700 border-1">
               <div className="flex items-center mb-4">
                 <div className="bg-green-500 rounded-full h-8 w-8 flex items-center justify-center mr-2">
                   <span className="text-white text-xs">SC</span>
@@ -105,7 +105,7 @@ function CommunityPage() {
                 <input
                   type="text"
                   placeholder="What's on your mind ?"
-                  className="bg-gray-700 rounded-lg flex-grow p-2 text-sm"
+                  className="bg-white/10 rounded-lg flex-grow p-2 text-sm"
                 />
               </div>
               
@@ -133,14 +133,14 @@ function CommunityPage() {
                   </button>
                 </div>
                 
-                <button className="bg-indigo-500 text-white px-3 py-1 rounded-lg text-sm">
+                <button className="bg-purple-500 text-white px-3 py-1 rounded-lg text-sm">
                   Post
                 </button>
               </div>
             </div>
             {/* Posts */}
             {posts.map(post => (
-              <div key={post.id} className="bg-gray-800 rounded-lg p-4 mb-6">
+              <div key={post.id} className="bg-white/10  border-gray-700 border-1 rounded-lg p-4 mb-6">
                 <div className="flex justify-between items-center mb-4">
                   <div className="flex items-center">
                     <div className="bg-pink-500 rounded-full h-8 w-8 flex items-center justify-center mr-2">
@@ -152,7 +152,7 @@ function CommunityPage() {
                     </div>
                   </div>
                   
-                  <button className="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs">
+                  <button className="bg-green-900 text-white px-3 py-1 rounded-lg text-xs">
                     Front-end
                   </button>
                 </div>
@@ -202,11 +202,11 @@ function CommunityPage() {
           
           {/* News Section */}
           <div className="w-80 h-full flex flex-col">
-          <h2 className="text-xl font-bold mb-4 text-white">More News</h2>
+          <h2 className="text-2xl font-bold mb-4 text-white">More News</h2>
           <div className="flex-1 overflow-y-auto pb-4 pr-2">
             {newsItems.length > 0 ? (
               newsItems.map((results, index) => (
-                <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md items-start space-x-4 mb-4">
+                <div key={index} className="bg-white/10 border-1 border-gray-700 p-4 rounded-lg shadow-md items-start space-x-4 mb-4">
                   {/* Image */}
                   <a href={results.link} target="_blank" rel="noopener noreferrer" className="block">
                   <img
@@ -220,7 +220,7 @@ function CommunityPage() {
                   {/* Content */}
                   <div className="flex-1">
                     {/* Title */}
-                    <h4 className="text-sm font-bold text-gray-900">{results.title}</h4>
+                    <h4 className="text-sm font-bold text-white-900">{results.title}</h4>
 
                     {/* Description */}
                     <p className="text-xs text-gray-500 line-clamp-2">{results.description}</p>

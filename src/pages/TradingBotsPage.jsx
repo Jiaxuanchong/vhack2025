@@ -270,7 +270,7 @@ const TradingBotsPage = () => {
   return (
     <div className="min-h-screen w-full bg-black text-white py-8 px-4 flex flex-col items-center">
       {/* Title */}
-      <h1 className="text-3xl font-bold text-purple-400 mb-4 text-center">
+      <h1 className="text-3xl font-bold text-white mb-4 text-center">
         Automated Trading Bots
       </h1>
       <p className="text-gray-300 text-center max-w-2xl mb-10">
