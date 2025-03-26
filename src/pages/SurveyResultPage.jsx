@@ -1,13 +1,19 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {
-  LightningBoltIcon,
-  ClockIcon,
-  RefreshIcon,
-  TrendingUpIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CheckCircleIcon
-} from '@heroicons/react/outline';
+  Clock,
+  RefreshCw,
+  TrendingUp,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+  DollarSign,
+  Scale,
+  Repeat,
+  ArrowDownCircle,
+  Table,
+  ShieldCheck,
+  Settings
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const SurveyResultPage = () => {
@@ -22,41 +28,108 @@ const SurveyResultPage = () => {
     'Moderate Trader':
       'As a Moderate Trader, you seek a balance between risk and reward, combining both short-term and long-term strategies.',
     'Aggressive Trader':
-      'As an Aggressive Trader, you have a higher risk tolerance and look for short-term, high-potential opportunities.'
+      'As an Aggressive Trader, you have a higher risk tolerance and look for short-term, high-potential opportunities.',
+    'High-Risk Trader':
+      'As a High-Risk Trader, you are willing to take extreme risks for potentially high returns, often using leverage and margin trading.'
   };
 
   const strategyOptions = [
     {
-      name: 'Scalping',
-      description:
-        'Quick, small trades aimed at capitalizing on minute market movements.',
-      icon: <LightningBoltIcon className="h-6 w-6 text-purple-300" />,
+      name: 'Scalping Bot',
+      description: 'Uses high-frequency trading (HFT) to capture small price movements multiple times per day.',
+      icon: <Clock className="h-6 w-6 text-red-500" />,
       recommended: traderType === 'Aggressive Trader',
       badge: 'High Risk, High Reward'
     },
     {
-      name: 'Day Trading',
-      description:
-        'Positions opened and closed within the same day, avoiding overnight risk.',
-      icon: <ClockIcon className="h-6 w-6 text-purple-300" />,
-      recommended: false,
-      badge: 'Medium Risk'
+      name: 'Arbitrage Bot',
+      description: 'Exploits price differences between exchanges to generate profits.',
+      icon: <DollarSign className="h-6 w-6 text-red-500" />,
+      recommended: traderType === 'Aggressive Trader',
+      badge: 'High Risk'
     },
     {
-      name: 'Swing Trading',
-      description:
-        'Capturing medium-term price moves over a few days to weeks.',
-      icon: <RefreshIcon className="h-6 w-6 text-purple-300" />,
+      name: 'Momentum Trading Bot',
+      description: 'Uses RSI and volume indicators to capitalize on strong price movements.',
+      icon: <TrendingUp className="h-6 w-6 text-red-500" />,
+      recommended: traderType === 'Aggressive Trader',
+      badge: 'High Volatility'
+    },
+    
+    // High-Risk Trader (Extreme Risk, Leveraged Trading)
+    {
+      name: 'Leverage Trading Bot',
+      description: 'Uses margin trading to amplify gains (and risks).',
+      icon: <Scale className="h-6 w-6 text-blue-500" />,
+      recommended: false,
+      badge: 'Extreme Risk'
+    },
+    {
+      name: 'Futures Trading Bot',
+      description: 'Trades Bitcoin futures contracts with long/short strategies.',
+      icon: <Repeat className="h-6 w-6 text-blue-500" />,
+      recommended: false,
+      badge: 'Leverage Trading'
+    },
+    {
+      name: 'Martingale Bot',
+      description: 'Doubles trade size after each loss to recover losses quickly (very risky).',
+      icon: <Repeat className="h-6 w-6 text-blue-500" />,
+      recommended: false,
+      badge: 'High-Risk Strategy'
+    },
+    {
+      name: 'AI Predictive Trading Bot',
+      description: 'Uses machine learning to forecast market trends and trade aggressively.',
+      icon: <Repeat className="h-6 w-6 text-blue-500" />,
+      recommended: false,
+      badge: 'AI-Based Trading'
+    },
+    
+    // Moderate Trader (Medium-Risk, Swing Traders)
+    {
+      name: 'Swing Trading Bot',
+      description: 'Detects trends and executes trades based on medium-term market movements.',
+      icon: <RefreshCw className="h-6 w-6 text-yellow-400" />,
       recommended: false,
       badge: 'Balanced'
     },
     {
-      name: 'Position Trading',
-      description:
-        'Long-term approach focusing on major trends and fundamental analysis.',
-      icon: <TrendingUpIcon className="h-6 w-6 text-purple-300" />,
+      name: 'Trend-Following Bot',
+      description: 'Uses moving averages and indicators like MACD to follow strong trends.',
+      icon: <TrendingUp className="h-6 w-6 text-yellow-400" />,
       recommended: false,
-      badge: 'Lower Risk'
+      badge: 'Medium Risk'
+    },
+    {
+      name: 'Mean Reversion Bot',
+      description: 'Buys assets when they are undervalued and sells when they are overvalued.',
+      icon: <ArrowDownCircle className="h-6 w-6 text-yellow-400" />,
+      recommended: false,
+      badge: 'Statistical Approach'
+    },
+    {
+      name: 'Grid Trading Bot',
+      description: 'Places automated buy/sell orders within a defined price range for profit in sideways markets.',
+      icon: <Table className="h-6 w-6 text-yellow-400" />,
+      recommended: false,
+      badge: 'Sideways Market'
+    },
+    
+    // Conservative Trader (Low-Risk, Long-Term Investors)
+    {
+      name: 'HODL Strategy Bot',
+      description: 'Auto-buys Bitcoin at dips and holds for long-term gains.',
+      icon: <ShieldCheck className="h-6 w-6 text-green-400" />,
+      recommended: false,
+      badge: 'Low Risk'
+    },
+    {
+      name: 'Portfolio Rebalancing Bot',
+      description: 'Automatically adjusts asset allocations to maintain a stable risk profile.',
+      icon: <Settings className="h-6 w-6 text-green-400" />,
+      recommended: false,
+      badge: 'Stable Income'
     }
   ];
 
@@ -146,7 +219,7 @@ const SurveyResultPage = () => {
                 bg-black/50 text-yellow-400 p-2 rounded-full 
                 hover:bg-yellow-400/20 transition-colors z-10 shadow-lg"
             >
-              <ChevronLeftIcon className="h-6 w-6" />
+              <ChevronLeft className="h-6 w-6" />
             </button>
           )}
 
@@ -186,7 +259,7 @@ const SurveyResultPage = () => {
                     </div>
                     <h4 className="text-xl font-bold">{option.name}</h4>
                     {isSelected && (
-                      <CheckCircleIcon className="h-5 w-5 text-green-400 ml-auto" />
+                      <CheckCircle className="h-5 w-5 text-green-400 ml-auto" />
                     )}
                   </div>
 
@@ -215,7 +288,7 @@ const SurveyResultPage = () => {
                 bg-black/50 text-yellow-400 p-2 rounded-full 
                 hover:bg-yellow-400/20 transition-colors z-10 shadow-lg"
             >
-              <ChevronRightIcon className="h-6 w-6" />
+              <ChevronRight className="h-6 w-6" />
             </button>
           )}
         </div>
