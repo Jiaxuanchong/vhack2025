@@ -39,7 +39,7 @@ const SignupPage = () => {
       <div className="w-1/2 flex items-center justify-center pr-10 pt-4  overflow-auto">
         <div className="w-full max-w-md bg-[#1b1135] p-6 rounded-lg shadow-lg mt-4">
           <h2 className="text-3xl font-bold text-center mb-1">SIGN UP</h2>
-          <p className=" italic text-center mb-4">to SwiftTrade explore more</p>
+          <p className=" italic text-center mb-4">Get Started Now!</p>
 
           <div className="flex gap-4 mb-4">
           <input

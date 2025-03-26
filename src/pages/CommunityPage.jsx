@@ -100,7 +100,7 @@ function CommunityPage() {
                 </div>
                 <input
                   type="text"
-                  placeholder="Share your trading bot strategy..."
+                  placeholder="Share your experience with our trading bots..."
                   className="bg-gray-800 text-white rounded-lg flex-grow p-3 text-sm focus:ring-2 focus:ring-purple-500 transition-all duration-300"
                 />
               </div>

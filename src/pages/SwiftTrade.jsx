@@ -19,64 +19,64 @@ import logo from "../assets/logo.png";
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 const questions = [
-  { text: "How comfortable are you with managing your finances?", options: [
-      { label: "I struggle with budgeting", impact: { financial: 1 } },
-      { label: "I manage my budget but sometimes overspend", impact: { financial: 3 } },
-      { label: "I track my finances carefully and stick to a budget", impact: { financial: 5 } }
+  { text: "How comfortable are you with taking risks in trading?", options: [
+      { label: "I avoid risks and prefer safe investments", impact: { riskTolerance: 1 } },
+      { label: "I take moderate risks for better returns", impact: { riskTolerance: 3 } },
+      { label: "I am willing to take high risks for high rewards", impact: { riskTolerance: 5 } }
     ]
   },
-  { text: "How willing are you to take financial risks for higher rewards?", options: [
-      { label: "I avoid financial risks completely", impact: { riskTolerance: 1 } },
-      { label: "I take calculated risks", impact: { riskTolerance: 3 } },
-      { label: "I embrace high-risk investments", impact: { riskTolerance: 5 } }
+  { text: "What is your typical investment horizon?", options: [
+      { label: "Long-term (more than 1 year) ", impact: { investmentHorizon: 1 } },
+      { label: "Medium-term (a few months)", impact: { investmentHorizon: 3 } },
+      { label: "Short-term (days to weeks)", impact: { investmentHorizon: 5 } }
     ]
   },
-  { text: "How many years have you actively managed your own investments?", options: [
-      { label: "Less than a year", impact: { experience: 1 } },
-      { label: "1-5 years", impact: { experience: 3 } },
-      { label: "More than 5 years", impact: { experience: 5 } }
+  { text: "How often do you trade?", options: [
+      { label: "Rarely", impact: { tradingFrequency: 1 } },
+      { label: "Occasionally", impact: { tradingFrequency: 3 } },
+      { label: "Actively (daily/weekly)", impact: { tradingFrequency: 5 } }
     ]
   },
-  { text: "Do you prefer stable, long-term investments over short-term high-risk ones?", options: [
-      { label: "I prefer only safe, long-term investments", impact: { stability: 1 } },
-      { label: "I like a mix of both", impact: { stability: 3 } },
-      { label: "I actively seek short-term high-risk investments", impact: { stability: 5 } }
+  { text: "How long do you typically hold onto an asset before selling?", options: [
+      { label: "I hold for years, focusing on long-term growth", impact: { investmentHorizon: 1 } },
+      { label: "I hold for months, adjusting based on market trends", impact: { investmentHorizon: 3 } },
+      { label: "I trade frequently, holding assets for days or weeks", impact: { investmentHorizon: 5 } }
     ]
   },
-  { text: "How quickly do you recover from financial setbacks?", options: [
-      { label: "It takes me a long time to recover", impact: { resilience: 1 } },
-      { label: "I adjust and move on within a reasonable time", impact: { resilience: 3 } },
-      { label: "I bounce back quickly and find new opportunities", impact: { resilience: 5 } }
+  { text: "Do you use leverage in your trades?", options: [
+      { label: "No, I avoid leverage", impact: { leverageUsage: 1 } },
+      { label: "Sometimes, but with limits", impact: { leverageUsage: 3 } },
+      { label: "Yes, I use high leverage", impact: { leverageUsage: 5 } }
     ]
   },
-  { text: "When facing financial difficulties, how adaptable are you in making changes?", options: [
-      { label: "I find it hard to adapt", impact: { resilience: 1 } },
-      { label: "I make adjustments when needed", impact: { resilience: 3 } },
-      { label: "I am very adaptable and find new solutions quickly", impact: { resilience: 5 } }
+  { text: "What is your profit expectation per trade?", options: [
+      { label: "Small and consistent gains", impact: { profitExpection: 1 } },
+      { label: "Moderate gains with some risk", impact: { profitExpection: 3 } },
+      { label: "High profits, even with high risk", impact: { profitExpection: 5 } }
     ]
   },
-  { text: "How often do you track and review your expenses?", options: [
-      { label: "Rarely, I don’t keep track", impact: { financial: 1 } },
-      { label: "Occasionally, when I feel it's necessary", impact: { financial: 3 } },
-      { label: "Regularly, I check my budget and spending", impact: { financial: 5 } }
+  { text: "Do you use stop-loss and take-profit strategies?", options: [
+      { label: "Yes, always use theses strategies", impact: { tradingFrequency: 1 } },
+      { label: "Sometimes, when I feel it's necessary", impact: { tradingFrequency: 3 } },
+      { label: "Rarely, I almost don't use these strategies", impact: { tradingFrequency: 5 } }
     ]
   },
-  { text: "If you lost half of your investments in a downturn, what would you do?", options: [
-      { label: "Sell everything immediately to prevent further loss", impact: { riskTolerance: 1 } },
-      { label: "Hold on and wait for recovery", impact: { riskTolerance: 3 } },
-      { label: "Invest more to buy at lower prices", impact: { riskTolerance: 5 } }
+  { text: "How do you approach uncertain market conditions?", options: [
+      { label: "I prefer to exit trades quickly to avoid losses", impact: { riskTolerance: 1 } },
+      { label: "I wait and see before making a decision", impact: { riskTolerance: 3 } },
+      { label: "I see uncertainty as an opportunity and take calculated risks", impact: { riskTolerance: 5 } }
     ]
   },
-  { text: "How experienced are you in investing or financial planning?", options: [
-      { label: "I have little to no experience", impact: { experience: 1 } },
-      { label: "I have some knowledge and have made investments", impact: { experience: 3 } },
-      { label: "I actively manage my investments", impact: { experience: 5 } }
+  { text: "How do you handle market volatility?", options: [
+      { label: "I avoid volatile markets", impact: { marketVolatilityPre: 1 } },
+      { label: "I accept some volatility", impact: { marketVolatilityPre: 3 } },
+      { label: "I thrive in high volatility", impact: { marketVolatilityPre: 5 } }
     ]
   },
-  { text: "How well do you handle financial uncertainty or economic downturns?", options: [
-      { label: "I get anxious and withdraw from investments", impact: { stability: 1 } },
-      { label: "I remain cautious but stay invested", impact: { stability: 3 } },
-      { label: "I see downturns as opportunities", impact: { stability: 5 } }
+  { text: "What type of assets do you prefer trading?", options: [
+      { label: "Stable assets like bonds/stocks", impact: { marketVolatilityPre: 1 } },
+      { label: "Crypto, but only stable coins", impact: { marketVolatilityPre: 3 } },
+      { label: "Crypto with high volatility", impact: { marketVolatilityPre: 5 } }
     ]
   }
 ];
@@ -84,11 +84,12 @@ const questions = [
 const SwiftTrade = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [userData, setUserData] = useState({
-    financial: 0,
     riskTolerance: 0,
-    experience: 0,
-    stability: 0,
-    resilience: 0
+    tradingFrequency: 0,
+    investmentHorizon: 0,
+    leverageUsage: 0,
+    profitExpection: 0,
+    marketVolatilityPre: 0,
   });
 
   const navigate = useNavigate();
@@ -111,16 +112,17 @@ const SwiftTrade = () => {
   };
 
   const radarData = {
-    labels: ["Financial", "Risk Tolerance", "Experience", "Stability", "Resilience"],
+    labels: ["Risk Tolerance","Trading Frequency", "Investment Horizon", "Leverage Usage","Profit Expectation", "Market Volatility Preference"],
     datasets: [
       {
         label: "User Profile",
         data: [
-          userData.financial,
           userData.riskTolerance,
-          userData.experience,
-          userData.stability,
-          userData.resilience
+          userData.tradingFrequency,
+          userData.investmentHorizon,
+          userData.leverageUsage,
+          userData.profitExpection,
+          userData.marketVolatilityPre
         ],
         backgroundColor: "rgb(209, 202, 255, 0.5)",
         borderColor: "rgb(209, 202, 255, 1)",
