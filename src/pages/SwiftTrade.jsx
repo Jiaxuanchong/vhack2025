@@ -112,7 +112,7 @@ const SwiftTrade = () => {
   };
 
   const radarData = {
-    labels: ["Risk Tolerance","Trading Frequency", "Investment Horizon", "Leverage Usage","Profit Expectation", "Market Volatility Preference"],
+    labels: ["Risk Tolerance","Trading Frequency", "Investment Horizon", "Leverage Usage","Profit Expectation", "Market Volatility"],
     datasets: [
       {
         label: "User Profile",

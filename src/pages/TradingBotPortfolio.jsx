@@ -7,7 +7,8 @@ import {
   InformationCircleIcon,
   ArrowUpIcon,
   ArrowDownIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  DocumentReportIcon
 } from '@heroicons/react/outline';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, LineChart, Line, PieChart, Pie, Cell, Legend } from "recharts";
 
@@ -17,32 +18,42 @@ const botPerformanceData = {
   totalBots: 12,
   cryptocurrencies: ['BTC', 'ETH', 'XRP', 'ADA', 'DOT', 'LINK', 'MATIC', 'SOL'],
   overallPerformance: {
-    totalProfit: 124567.89,
-    profitPercentage: 45.6,
-    totalTrades: 8765,
-    winRate: 72.5,
-    sharpeRatio: 2.15,
-    maxDrawdown: 9.8,
+    totalProfit: 225190.33,
+    profitPercentage: 225.19,
+    totalTrades: 160,
+    winRate: 30,
+    sharpeRatio: 2.21,
     totalVolume: 456.32,
     averageTradeDuration: '2h 15m'
   },
   profitTrend: [
-    { month: 'Jan', profit: 50000 },
-    { month: 'Feb', profit: 75000 },
-    { month: 'Mar', profit: 124567 }
+    { month: 'Mar 2024', profit: 0},
+    { month: 'Apr 2024', profit: 20000 },
+    { month: 'May 2024', profit: 45000 },   // Add missing months
+    { month: 'Jun 2024', profit: 50000 },
+    { month: 'Jul 2024', profit: 65000 },
+    { month: 'Aug 2024', profit: 82002 },
+    { month: 'Sep 2024', profit: 90000 },
+    { month: 'Oct 2024', profit: 122382.00 },
+    { month: 'Nov 2024', profit: 130000.00 },
+    { month: 'Dec 2024', profit: 150323.45 },
+    { month: 'Jan 2025', profit: 189820.12 },
+    { month: 'Feb 2025', profit: 200189.00 },
+    { month: 'Mar 2025', profit: 225190.33 }
   ],
   assetAllocation: [
-    { name: 'BTC', value: 40 },
-    { name: 'ETH', value: 30 },
-    { name: 'XRP', value: 15 },
-    { name: 'Others', value: 15 }
+    { name: 'BTC', value: 60},
+    { name: 'ETH', value: 25},
+    { name: 'XRP', value: 10},
+    { name: 'Others', value: 5},
+
   ],
   botDetails: [
     {
       name: 'Scalper Bot',
       status: 'Active',
       performance: {
-        totalProfit: 32453.89,
+        totalProfit: 1943.87,
         winRate: 75.2,
         profitFactor: 1.8,
         sharpeRatio: 1.55,
@@ -54,11 +65,11 @@ const botPerformanceData = {
       currentPositions: [
         {
           asset: 'BTC/USDT',
-          entryPrice: 42567.89,
-          currentPrice: 43102.45,
+          entryPrice: 84516.02,
+          currentPrice: 86459.89,
           profitLoss: '+2.3%',
           volume: 0.75,
-          entryTime: '2024-03-25 10:35:42'
+          entryTime: '2025-03-23 10:35:42'
         }
       ]
     },
@@ -74,15 +85,15 @@ const botPerformanceData = {
         totalTrades: 3456,
         avgTradeProfit: 13.22
       },
-      activeAssets: ['ETH/USDT', 'ADA/USDT', 'DOT/USDT'],
+      activeAssets: ['BTC/USDT', 'ETH/USDT'],
       currentPositions: [
         {
           asset: 'ETH/USDT',
-          entryPrice: 2345.67,
-          currentPrice: 2389.45,
-          profitLoss: '+1.8%',
+          entryPrice: 1974.67,
+          currentPrice: 2056.45,
+          profitLoss: '+4.14%',
           volume: 1.25,
-          entryTime: '2024-03-25 09:15:22'
+          entryTime: '2025-03-18 09:15:22'
         }
       ]
     },
@@ -98,7 +109,7 @@ const botPerformanceData = {
         totalTrades: 1876,
         avgTradeProfit: 6.58
       },
-      activeAssets: ['XRP/USDT', 'LINK/USDT'],
+      activeAssets: ['XRP/USDT', 'BTC/USDT'],
       currentPositions: []
     }
   ],
@@ -110,7 +121,7 @@ const botPerformanceData = {
       entryPrice: 42567.89,
       exitPrice: 43102.45,
       profit: '+2.3%',
-      tradeTime: '2024-03-25 10:35:42',
+      tradeTime: '2025-03-02 10:35:42',
       status: 'Completed',
       aiAnalysis: {
         marketCondition: 'Bullish Momentum',
@@ -178,7 +189,13 @@ const TradingBotPortfolio = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
   // Colors for the Pie Chart
-  const COLORS = ["#FF5733", "#33FF57", "#3357FF", "#F3FF33", "#FF33A2"];
+  const COLORS = [
+    "#4A90E2",   // Bright Blue
+   // "#50E3C2",   // Teal
+    "#FF6B6B",   // Soft Red
+    "#FFD93D",   // Bright Yellow
+    "#e0facd"    // Slate Blue
+  ];
 
   const renderOverviewSection = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -204,58 +221,100 @@ const TradingBotPortfolio = () => {
       </div>
 
       {/* Performance Metrics Bar Chart */}
-      <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-white mb-4">Performance Metrics</h3>
+<div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+  <h3 className="text-xl font-semibold text-white mb-4">Performance Metrics</h3>
+  
+
+  {/* Bar Chart */}
         <ResponsiveContainer width="100%" height={250}>
-        <BarChart
-          data={[
-            { name: "Total Trades", value: botPerformanceData.overallPerformance.totalTrades },
-            { name: "Win Rate", value: botPerformanceData.overallPerformance.winRate },
-            { name: "Sharpe Ratio", value: botPerformanceData.overallPerformance.sharpeRatio * 10 },
-            { name: "Max Drawdown", value: botPerformanceData.overallPerformance.maxDrawdown }
-          ]}
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-        >
-          <XAxis 
-            dataKey="name" 
-            interval={0} 
-            angle={-45} 
-            textAnchor="end" 
-            height={60} 
-            fontSize={10}
-          />
-          <YAxis 
-            label={{ 
-              value: 'Value', 
-              angle: -90, 
-              position: 'insideLeft',
-              offset: 0
-            }} 
-          />
-          <Tooltip 
-            contentStyle={{ backgroundColor: '#333', color: '#fff' }}
-            itemStyle={{ color: '#fff' }}
-            cursor={{ fill: 'rgba(255,255,255,0.0001)' }}
-            formatter={(value, name) => [value, name]}
-          />
-          <Bar 
-            dataKey="value" 
-            fill="#8884d8" 
-            barSize={40}
+          <BarChart
+            data={[
+              { name: "Total Trades", value: 160 },
+              { name: "Win Rate", value: 30 },
+              { name: "Sharpe Ratio", value: 2.21 * 10 },
+            ]}
+            margin={{ top: 20, right: 30, left: 10, bottom: 0 }}
           >
-            {/* Add individual colors to each bar */}
-            {[
-              "#FF6384",  // Reddish for Total Trades
-              "#36A2EB",  // Blue for Win Rate
-              "#FFCE56",  // Yellow for Sharpe Ratio
-              "#4BC0C0"   // Teal for Max Drawdown
-            ].map((color, index) => (
-              <Cell key={`cell-${index}`} fill={color} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <XAxis 
+              dataKey="name" 
+              interval={0} 
+              angle={-45} 
+              textAnchor="end" 
+              height={20} 
+              fontSize={10}
+            />
+            <YAxis 
+              label={{ 
+                value: 'Value', 
+                angle: -90, 
+                position: 'insideLeft',
+                offset: 0
+              }} 
+            />
+            <Tooltip 
+              contentStyle={{ backgroundColor: '#333', color: '#fff' }}
+              itemStyle={{ color: '#fff' }}
+              cursor={{ fill: 'rgba(255,255,255,0.0001)' }}
+              formatter={(value, name) => [value, name]}
+            />
+            <Bar 
+              dataKey="value" 
+              fill="#8884d8" 
+              barSize={40}
+            >
+              {[
+                "#FF6384",  // Reddish for Total Trades
+                "#36A2EB",  // Blue for Win Rate
+                "#FFCE56",  // Yellow for Sharpe Ratio
+              ].map((color, index) => (
+                <Cell key={`cell-${index}`} fill={color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
       </div>
+
+      {/* Performance Metrics Summary */}
+      <div className="bg-gray-800 p-4 rounded-lg">
+      <div className="space-y-3">
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Initial Capital</span>
+          <span className="font-semibold text-white text-sm">$100,000.00</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Final Portfolio Value</span>
+          <span className="font-semibold text-green-400 text-sm">$325,190.33</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Total Returns</span>
+          <span className="font-semibold text-green-400 text-sm">$225,190.33</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Returns %</span>
+          <span className="font-semibold text-green-400 text-sm">+225.19%</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Annualized Return</span>
+          <span className="font-semibold text-yellow-400 text-sm">118.14%</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Sharpe Ratio</span>
+          <span className="font-semibold text-blue-400 text-sm">2.21</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Max Drawdown</span>
+          <span className="font-semibold text-red-400 text-sm">-16.83%</span>
+        </div>
+        <div className="flex justify-between items-center border-b border-gray-700 pb-2">
+          <span className="text-gray-400 text-sm">Win Rate</span>
+          <span className="font-semibold text-purple-400 text-sm">30.0%</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-gray-400 text-sm">Total Trades</span>
+          <span className="font-semibold text-white text-sm">160</span>
+        </div>
+      </div>
+    </div>
 
       {/* Profit Trend Line Chart */}
       <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
@@ -281,9 +340,9 @@ const TradingBotPortfolio = () => {
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={90}
+              outerRadius={80}
               fill="#8884d8"
-              label
+              label = {({ name, percent }) => `${name} ${(percent * 100).toFixed(1)}%`}
             >
               {botPerformanceData.assetAllocation.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -412,13 +471,21 @@ const TradingBotPortfolio = () => {
           <div className="mt-4">
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={[
-                { name: 'Profit', value: bot.performance.totalProfit / 1000 },
-                { name: 'Trades', value: bot.performance.totalTrades / 10 },
-                { name: 'Win Rate', value: bot.performance.winRate },
+                { name: 'Profit (x100)', value: bot.performance.totalProfit / 100 },
+                { name: 'Trades (x10)', value: bot.performance.totalTrades / 10 },
+                { name: 'Win Rate', value: bot.performance.winRate},
                 { name: 'Drawdown', value: bot.performance.maxDrawdown }
               ]}>
-                <XAxis dataKey="name" />
-                <YAxis />
+            
+                <XAxis 
+                dataKey="name" 
+                interval={0}  // Ensure all labels show
+                angle={-45}   // Rotate to avoid overlap
+                textAnchor="end" 
+                height={60}   // Increase space for labels
+                fontSize={12} 
+              /> 
+                <YAxis/>
                 <Tooltip cursor={{ fill: 'rgba(255,255,255,0.0001)' }} />
                 <Bar dataKey="value" fill="#8884d8" />
               </BarChart>
@@ -481,7 +548,8 @@ const TradingBotPortfolio = () => {
         {[
           { key: 'overview', label: 'Overview', icon: TrendingUpIcon },
           { key: 'trade-history', label: 'Trade History', icon: DocumentTextIcon },
-          { key: 'bot-details', label: 'Bot Details', icon: ChartBarIcon }
+          { key: 'bot-details', label: 'Bot Details', icon: ChartBarIcon },
+          { key: 'generate- reports', label: 'View Report', icon: DocumentReportIcon }
         ].map((tab) => (
           <button
             key={tab.key}
