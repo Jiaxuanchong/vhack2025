@@ -5,4 +5,14 @@ export default defineConfig({
   plugins: [
     tailwindcss(),react()
   ],
+    server: {
+    proxy: {
+      // Proxy any request starting with /bitcoin-news-sentiment
+       '/bitcoin-news-sentiment': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+        secure: false
+      }
+    },
+  },
 })

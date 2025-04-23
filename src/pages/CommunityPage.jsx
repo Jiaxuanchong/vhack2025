@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import commentImg from "../assets/ss1.jpg";
+import apiService from '../service/api';
 function CommunityPage() {
   // Updated posts specifically for algo trading platform
   const posts = [
@@ -39,25 +40,32 @@ function CommunityPage() {
   ];
 
   const [newsItems, setNewsItems] = useState([]);
+    const [loading, setLoading]     = useState(true);
+  const [error, setError]         = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8001/bitcoin-news-sentiment")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data.news_sentiment) {
+          const fetchNewsData = async () => {
+      try {
+        setLoading(true);
+        const data = await apiService.getBitcoinNewsSentiment();
+                if (data.news_sentiment) {
           setNewsItems(data.news_sentiment);
         } else {
-          console.error("No news_sentiment field in response:", data);
+                  throw new Error("No news_sentiment field in response");
         }
-      })
-      .catch((error) => console.error("Error fetching news:", error));
+        } catch (error) {
+        setError(error.message);
+        console.error("Error fetching news:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsData();
   }, []);
-  
+
+   
+
   // Custom scrollbar styles to be added to head
   useEffect(() => {
     const style = document.createElement('style');
@@ -83,6 +91,9 @@ function CommunityPage() {
       document.head.removeChild(style);
     };
   }, []);
+
+   if (loading) return <div>Loading news...</div>;
+  if (error) return <div>Error loading news: {error}</div>;
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-white">
