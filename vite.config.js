@@ -12,7 +12,13 @@ export default defineConfig({
         target: 'http://localhost:8001',
         changeOrigin: true,
         secure: false
+        },
+        'api/v1/backtest/simulate-trade': {
+          target: 'http://localhost:8000',
+          changeOrigin: true,
+          secure: false,
+        },
+        
       }
-    },
   },
-})
+  },)

@@ -15,53 +15,58 @@ export default function BacktestingPage() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRun = async () => {
-    if (!startDate || !endDate) {
-      alert("Please select both start and end dates.");
-      return;
+  // In BacktestingPage.jsx, update the handleRun function:
+
+const handleRun = async () => {
+  if (!startDate || !endDate) {
+    alert("Please select both start and end dates.");
+    return;
+  }
+
+  setIsLoading(true);
+  setError(null);
+
+  try {
+    const payload = {
+      strategyName: "MeanReversionX",
+      startDate: format(startDate, 'yyyy-MM-dd'),
+      endDate: format(endDate, 'yyyy-MM-dd'),
+      initialCapital: 10000,
+      commissionRate: 0.001,
+      minCommission: 0.0,
+      allowForwardTest: mode === "forwardtesting",
+      allowPermutation: false,
+      assets: ["btc"],
+      runtimeMode: mode === "forwardtesting" ? "live-trade" : "backtest",
+      entryExitMode: "mean-reversion",
+      positionSizingMode: "auto",
+      maxPositionSize: 1.0,
+      stopLoss: 0.2,
+      takeProfit: 0.2,
+    };
+
+    // Choose backend based on mode
+    const backend = mode === "forwardtesting" ? "secondary" : "primary";
+    
+    console.log("Sending payload to", backend, "backend:", payload);
+    const response = await apiService.simulateBacktest(payload, backend);
+    console.log("Received response:", response);
+
+    if (response.success) {
+      setResult(response.data.backtestResult);
+    } else {
+      setError(response.error || { message: "Unknown error occurred" });
     }
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const payload = {
-        strategyName:       "MeanReversionX",
-        startDate:          format(startDate, 'yyyy-MM-dd'),
-        endDate:            format(endDate,   'yyyy-MM-dd'),
-        initialCapital:     10000,
-        commissionRate:     0.001,
-        minCommission:      0.0,
-        allowForwardTest:   mode === "forwardtesting",
-        allowPermutation:   false,
-        assets:             ["btc"],
-        runtimeMode:        mode === "forwardtesting" ? "live-trade" : "backtest",
-        entryExitMode:      "mean-reversion",
-        positionSizingMode: "auto",
-        maxPositionSize:    1.0,
-        stopLoss:           0.2,
-        takeProfit:         0.2,
-      };
-
-      console.log("Sending payload:", payload);
-      const response = await apiService.simulateBacktest(payload);
-      console.log("Received response:", response);
-
-      if (response.success) {
-        setResult(response.data.backtestResult);
-      } else {
-        setError(response.error || { message: "Unknown error occurred" });
-      }
-    } catch (err) {
-      console.error("Error during backtest:", err);
-      setError({
-        message: "Failed to run backtest",
-        details: err.message,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  } catch (err) {
+    console.error("Error during backtest:", err);
+    setError({
+      message: "Failed to run backtest",
+      details: err.message,
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
