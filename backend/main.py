@@ -1,17 +1,29 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
-
+from typing import List, Optional
+from fastapi import FastAPI, HTTPException
+import openai
 import requests
 from news1 import predict_sentiment
-from config import APP_NAME, APP_VERSION, APP_DESCRIPTION
 from datetime import datetime
+from pydantic import BaseModel
+from prompt_templates import build_messages
+from openai import OpenAIError
+
+APP_NAME = "vhack2025 API"     # Name of the app
+APP_DESCRIPTION = """
+vhack2025 backend service  
+- Provides endpoints for chat-style prompt completion  
+- Integrates with your Llama-based prompt_templates  
+- Designed to run under Uvicorn with hot reload  
+"""
 
 # Create FastAPI app
 app = FastAPI(
     title=APP_NAME,
     description=APP_DESCRIPTION,
-    version=APP_VERSION
+    version="0.1.0",
 )
 
 # Add CORS middleware
@@ -72,6 +84,37 @@ async def bitcoin_news_sentiment():
         return {"news_sentiment": results}
     else:
         return {"error": "Failed to fetch data", "status_code": response.status_code}
+    
+class ChatRequest(BaseModel):
+    query: str
+    context: Optional[List[str]] = []
+
+@app.post("/chat/openai")
+async def chat_openai(request: ChatRequest):
+    try:
+        # ←— NEW v1 interface here:
+        resp = openai.chat.completions.create(
+            model="gpt-4",
+            messages=build_messages(request.query, request.context),
+            temperature=0.7,
+            max_tokens=512,
+            n=1,
+            stream=False
+        )
+
+    except OpenAIError as e:
+        # ←— catches all API-level errors
+        raise HTTPException(status_code=502, detail=f"OpenAI API error: {e}")
+    except Exception as e:
+        # ←— any other unexpected failure
+        raise HTTPException(status_code=500, detail="Internal server error")
+    
+    # Extract the actual response content
+    assistant_message = resp.choices[0].message.content
+        
+    # Return the response to the frontend
+    return {"response": assistant_message}
+
 
 # Initialize directories
 def initialize_app():
