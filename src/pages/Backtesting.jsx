@@ -1,7 +1,9 @@
+// src/components/BacktestingPage.jsx
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import apiService from '../service/api';
 
 export default function BacktestingPage() {
   const [mode, setMode] = useState('backtesting');
@@ -9,15 +11,65 @@ export default function BacktestingPage() {
   const [endDate, setEndDate] = useState(null);
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRun = async () => {
+    if (!startDate || !endDate) {
+      alert("Please select both start and end dates.");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const payload = {
+        strategyName:       "MeanReversionX",
+        startDate:          format(startDate, 'yyyy-MM-dd'),
+        endDate:            format(endDate,   'yyyy-MM-dd'),
+        initialCapital:     10000,
+        commissionRate:     0.001,
+        minCommission:      0.0,
+        allowForwardTest:   mode === "forwardtesting",
+        allowPermutation:   false,
+        assets:             ["btc"],
+        runtimeMode:        mode === "forwardtesting" ? "live-trade" : "backtest",
+        entryExitMode:      "mean-reversion",
+        positionSizingMode: "auto",
+        maxPositionSize:    1.0,
+        stopLoss:           0.2,
+        takeProfit:         0.2,
+      };
+
+      console.log("Sending payload:", payload);
+      const response = await apiService.simulateBacktest(payload);
+      console.log("Received response:", response);
+
+      if (response.success) {
+        setResult(response.data.backtestResult);
+      } else {
+        setError(response.error || { message: "Unknown error occurred" });
+      }
+    } catch (err) {
+      console.error("Error during backtest:", err);
+      setError({
+        message: "Failed to run backtest",
+        details: err.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center text-white mb-8">Strategy</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">Strategy</h1>
 
-        <div className="flex flex-wrap items-start justify-between gap-6  bg-gray-900 p-6 rounded-xl shadow-lg ">
-
-          {/* Start Date */}
+        <div className="flex flex-wrap items-start justify-between gap-6 bg-gray-900 p-6 rounded-xl shadow-lg">
+          {/* Start Date Picker */}
           <div className="relative">
             <span className="text-sm text-white mb-1 block">Start Date</span>
             <button
@@ -40,7 +92,7 @@ export default function BacktestingPage() {
             )}
           </div>
 
-          {/* End Date */}
+          {/* End Date Picker */}
           <div className="relative">
             <span className="text-sm text-white mb-1 block">End Date</span>
             <button
@@ -69,13 +121,21 @@ export default function BacktestingPage() {
             <div className="flex space-x-2 bg-gray-800 border border-purple-600 rounded-lg p-1">
               <button
                 onClick={() => setMode('backtesting')}
-                className={`px-4 py-2 rounded ${mode === 'backtesting' ? 'bg-purple-600 text-white' : 'text-purple-300 hover:bg-gray-700'}`}
+                className={`px-4 py-2 rounded ${
+                  mode === 'backtesting'
+                    ? 'bg-purple-600 text-white'
+                    : 'text-purple-300 hover:bg-gray-700'
+                }`}
               >
                 Backtesting
               </button>
               <button
                 onClick={() => setMode('forwardtesting')}
-                className={`px-4 py-2 rounded ${mode === 'forwardtesting' ? 'bg-purple-600 text-white' : 'text-purple-300 hover:bg-gray-700'}`}
+                className={`px-4 py-2 rounded ${
+                  mode === 'forwardtesting'
+                    ? 'bg-purple-600 text-white'
+                    : 'text-purple-300 hover:bg-gray-700'
+                }`}
               >
                 Forward
               </button>
@@ -85,10 +145,27 @@ export default function BacktestingPage() {
 
         {/* Run Button */}
         <div className="mt-8">
-          <button className="w-full bg-purple-500 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl shadow">
-             {mode === 'backtesting' ? 'Backtest' : 'Forward Test'}
+          <button
+            className="w-full bg-purple-500 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl shadow"
+            onClick={handleRun}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Running...' : (mode === 'backtesting' ? 'Backtest' : 'Forward Test')}
           </button>
         </div>
+
+        {/* Result or Error */}
+        {result !== null && (
+          <div className="mt-4 text-green-400 text-lg font-semibold">
+            ✅ Backtest Result: {result}
+          </div>
+        )}
+        {error && (
+          <div className="mt-4 text-red-400">
+            ❌ {error.message}
+            {error.details && <div>🔍 {error.details}</div>}
+          </div>
+        )}
       </div>
     </div>
   );
