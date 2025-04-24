@@ -10,6 +10,7 @@ function Navigation() {
     { label: 'Trading Bots', path: '/trading-bots' },
     { label: 'Support', path: '/chatbot' },
     { label: 'Portfolio', path: '/portfolio' },
+    { label: 'Backtesting', path: '/backtesting' },
   ];
 
   return (

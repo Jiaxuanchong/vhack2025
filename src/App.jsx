@@ -9,7 +9,7 @@ import SurveyResultPage from './pages/SurveyResultPage'; // Survey page without 
 import './index.css';
 import Signup from './pages/Signup';
 import SwiftTrade from './pages/SwiftTrade';
-
+import BacktestingPage from './pages/Backtesting'; // Import the BacktestingPage component
 
 const AppContent = () => {
   const location = useLocation();
@@ -34,6 +34,7 @@ const AppContent = () => {
           <Route path="/results" element={<SurveyResultPage />} />
           <Route path="/survey" element={<SwiftTrade />} />
           <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/backtesting" element={<BacktestingPage />} />
           <Route path="/" element={<Signup />} />
         </Routes>
       </div>
